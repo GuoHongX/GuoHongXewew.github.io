@@ -1,4 +1,3 @@
-# GuoHongX.github.io
 ## Linux常见基本命令
 1. 查看文件信息：ls ls是英文单词list的简写，其功能为列出目录的内容
 2.  清屏：clear
