@@ -1,3 +1,5 @@
+[关于作者](./关于作者.md)
+
 [植物天然产物合成生物学研究](./植物天然产物合成生物学研究.md)
 
 [Xmanager PowerSuit](./XmanagerPowerSuit.md)
