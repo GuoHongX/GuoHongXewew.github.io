@@ -1,4 +1,7 @@
 ##在线获取windows和office电话激活ID
-https://ap.ctrler.cn/ 需fanqiang
-https://github.com/lbjlaq/cid
+
+网址：https://ap.ctrler.cn/ 需fanqiang
+
+源码：https://github.com/lbjlaq/cid
+
 搭建获取确认ID小程序教程https://mp.weixin.qq.com/s/3rEP056MN9dsSFW8mnvaYA
