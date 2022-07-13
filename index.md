@@ -1,5 +1,7 @@
 [关于作者](./关于作者.md)
 
+[在线获取windows和office电话激活ID](./在线获取windows和office电话激活ID.md)
+
 [植物天然产物合成生物学研究](./植物天然产物合成生物学研究.md)
 
 [Xmanager PowerSuit](./XmanagerPowerSuit.md)
