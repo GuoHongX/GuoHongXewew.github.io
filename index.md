@@ -1,7 +1,5 @@
 [关于作者](./关于作者.md)
 
-[关于PerformanceAnalytics:chart.Correlation](./chart.Correlation.md)
-
 [WGCNA and Meta-analyses](./WGCNA.md)
 
 [在线获取windows和office电话激活ID](./在线获取windows和office电话激活ID.md)
@@ -10,11 +8,9 @@
 
 [Xmanager PowerSuit](./XmanagerPowerSuit.md)
 
-[Classification of Cultivated Sorghum](./Classification.md)
+[R plot](./ggpubr.md)
 
-[ggpubr](./ggpubr.md)
-
-[全基因组关联分析](./全基因组关联分析.md)
+[Good papers](./全基因组关联分析.md)
 
 [天然产物在线免费数据库大集合](./天然产物在线免费数据库大集合.md)
 
