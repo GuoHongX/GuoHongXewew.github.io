@@ -1,5 +1,7 @@
 [关于作者](./关于作者.md)
 
+[关于PerformanceAnalytics:chart.Correlation](./chart.Correlation.md)
+
 [WGCNA and Meta-analyses](./WGCNA.md)
 
 [在线获取windows和office电话激活ID](./在线获取windows和office电话激活ID.md)
