@@ -1,9 +1,9 @@
-[Good ideas](./WGCNA.md)
+[Good ideas](./good_ideas.md)
 
-[Useful tools](./在线获取windows和office电话激活ID.md)
+[Useful tools](./useful_tools.md)
 
-[R plot](./ggpubr.md)
+[R plot](./r_plot.md)
 
-[Good papers](./全基因组关联分析.md)
+[Good papers](./good_papers.md)
 
 
