@@ -1,10 +1,11 @@
 #install.packages("ggpubr")
-## Install
 #if(!require(devtools)) install.packages("devtools")
 #devtools::install_github("kassambara/ggpubr")
-library("ggpubr")
+
+library("ggpubr") # Type 1
 data("ToothGrowth")
 head(ToothGrowth)
+df = read.delim("clipboard",header=TRUE)
 # Violin plots with box plots inside
 # :::::::::::::::::::::::::::::::::::::::::::::::::::
 # Change fill color by groups: dose
@@ -14,3 +15,16 @@ ggviolin(df, x = "dose", y = "len", fill = "dose",
          add = "boxplot", add.params = list(fill = "white"))+
   stat_compare_means(comparisons = my_comparisons, label = "p.signif")+ # Add significance levels
   stat_compare_means(label.y = 50) 
+  
+
+
+library("ggpubr") # Type 2
+df = read.delim("clipboard",header=TRUE)
+my_comparisons <- list( c("C", "T"))
+ggplot(df, aes(x = Allele, y = Capacity, color = Allele))+
+  geom_violin(trim=FALSE)+
+  geom_boxplot(width=0.3)+
+  geom_jitter(width = 0.03)+
+  stat_compare_means(comparisons = my_comparisons, label = "p.format",label.y = 17)+ # Add significance levels
+  theme_bw()+
+  theme(legend.position="none")
