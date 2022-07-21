@@ -1,5 +1,4 @@
 # Site wide configuration
-
 title: Personal Academic Website
-tagline: By Guo Hong
-logo: ./images/doctor.png
+subtittle: By Guo Hong
+logo: "./images/doctor.png"
