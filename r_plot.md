@@ -13,3 +13,9 @@ ggpubr: ‘ggplot2’ Based Publication Ready Plots. Find out more at https://rp
 ![样图](./images/corplot.png)
 
 [R script](./script/chart.Correlation.R.txt)
+
+## 分组箱型图
+
+![样图](./images/a080ab5b-833d-4851-a61c-76404c2b7fee.png)
+
+[R script](./script/multiple-boxplot.R.txt)
