@@ -1,0 +1,1663 @@
+#install.packages("ggpubr")
+library(ggpubr)
+wdata = read.delim("clipboard",header=TRUE)
+ggdensity(wdata, x = "HGW",
+          add = "mean", 
+          rug = TRUE,
+          color = "Year", 
+          fill = "NA",
+          palette = "ggplot2")
+ggdensity(wdata, x = "GW",
+          add = "mean", 
+          rug = TRUE,
+          color = "Year", 
+          fill = "NA",
+          palette = "ggplot2")
+ggdensity(wdata, x = "GL",
+          add = "mean", 
+          rug = TRUE,
+          color = "Year", 
+          fill = "NA",
+          palette = "ggplot2")
+gghistogram(wdata, x = "HGW",
+            add = "mean", 
+            rug = TRUE,
+            color = "Year", 
+            fill = "Year",
+            bins = 10,
+            palette = "ggplot2")
+
+
+
+
+
+data("ToothGrowth")
+df <- ToothGrowth
+my_comparisons <- list( c("0.5", "1"), c("1", "2"), c("0.5", "2") )
+ggviolin(df, x = "dose", y = "len", color = "dose",
+         palette = "ggplot2",
+         add = "boxplot", add.params = list(fill = "white"))+
+  stat_compare_means(comparisons = my_comparisons, label = "p.signif")+
+  stat_compare_means(label.y = 50)  
+
+
+library(ggpubr)
+wdata = read.delim("clipboard",header=TRUE)
+my_comparisons <- list( c("IG", "IS"), c("IS", "LG"), c("IG", "LG") )
+ggviolin(wdata, x = "Subgroup", y = "HGW", color = "Subgroup",
+         palette = "ggplot2",
+         add = "boxplot", add.params = list(fill = "white"))+
+  stat_compare_means(comparisons = my_comparisons)+
+  theme(legend.position="none")
+ggviolin(wdata, x = "Subgroup", y = "GL", color = "Subgroup",
+         palette = "ggplot2",
+         add = "boxplot", add.params = list(fill = "white"))+
+  stat_compare_means(comparisons = my_comparisons)+
+  theme(legend.position="none")
+ggviolin(wdata, x = "Subgroup", y = "GW", color = "Subgroup",
+         palette = "ggplot2",
+         add = "boxplot", add.params = list(fill = "white"))+
+  stat_compare_means(comparisons = my_comparisons)+
+  theme(legend.position="none")
+
+
+library(corrplot)
+wdata = read.delim("clipboard",header=TRUE)
+M<-cor(wdata)
+corrplot(M, method="number", tl.col="black", tl.srt=45, number.cex = 0.8)
+
+library("CMplot")
+data(pig60K)
+data(cattle50K)
+SNPs <- list(
+  pig60K$SNP[pig60K$trait1<1e-6],
+  pig60K$SNP[pig60K$trait2<1e-6],
+  pig60K$SNP[pig60K$trait3<1e-6]
+)
+CMplot(pig60K, plot.type="m",multracks=TRUE,threshold=c(1e-6,1e-4),threshold.lty=c(1,2), 
+       threshold.lwd=c(1,1), threshold.col=c("black","grey"), amplify=TRUE,bin.size=1e6,
+       chr.den.col=c("darkgreen", "yellow", "red"), signal.col=c("red","green","blue"),
+       signal.cex=1, file="jpg",memo="",dpi=300,file.output=TRUE,verbose=TRUE,
+       highlight=SNPs, highlight.text=SNPs, highlight.text.cex=1.4)
+CMplot(pig60K,type="p",plot.type="c",chr.labels=paste("Chr",c(1:18,"X","Y"),sep=""),r=0.4,cir.legend=TRUE,     outward=FALSE,cir.legend.col="black",cir.chr.h=1.3,chr.den.col="black",file="jpg", memo="",dpi=300,file.output=TRUE,verbose=TRUE,width=10,height=10)
+
+
+library(ggpubr)
+wdata = read.delim("clipboard",header=TRUE)
+my_comparisons <- list( c("T", "A"))
+ggviolin(wdata, x = "SNP22", y = "HGW",
+         palette = "ggplot2",
+         add = "boxplot", add.params = list(fill = "white"))+
+  stat_compare_means(comparisons = my_comparisons)+
+  theme(legend.position="none")
+ggviolin(wdata, x = "SNP19", y = "GL",
+         palette = "ggplot2",
+         add = "boxplot", add.params = list(fill = "white"))+
+  stat_compare_means(comparisons = my_comparisons)+
+  theme(legend.position="none")
+ggviolin(wdata, x = "SNP13", y = "GW",
+         palette = "ggplot2",
+         add = "boxplot", add.params = list(fill = "white"))+
+  stat_compare_means(comparisons = my_comparisons)+
+  theme(legend.position="none")
+
+library(ggplot2)
+wdata = read.delim("clipboard",header=TRUE)
+wdata2 = read.delim("clipboard",header=TRUE)
+loci =read.delim("clipboard")
+end=read.delim("clipboard")
+ggplot(wdata,aes(x=Chromosome,y=Year,size=log10P,colour=Type))+
+  geom_point(shape=2)+ 
+  scale_x_continuous(label = wdata2$Chr2,breaks=wdata2$Center)+
+  geom_hline(yintercept = wdata$Year,linetype ="dotted")+
+  geom_vline(xintercept = loci$line,colour ="black")+
+  geom_vline(xintercept = end$line,colour ="grey")+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())
+ggplot(wdata,aes(x=Chromosome,y=1,colour="red"))+
+  geom_bar(position=position_dodge(),stat="identity")+ 
+  scale_x_continuous(label = wdata2$Chr2,breaks=wdata2$Center)+
+  geom_vline(xintercept = end$line,colour ="black")+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())
+
+
+
+library(ggplot2)
+wdata = read.delim("clipboard",header=TRUE)
+ggplot(wdata, aes(x/1000000, y)) +
+  geom_point(size=1, shape=2,colour="darkblue")+
+  theme_classic()+
+  xlab("")+ 
+  ylab("-log10(P)")+
+  ggtitle("HGW")
+
+library(ggpubr)
+library(ggplot2)
+wdata = read.delim("clipboard",header=TRUE)
+my_comparisons <- list( c("Hap_1", "Hap_2"))
+ggboxplot(wdata, x = "Haplotype", y = "GL",
+         palette = "ggplot2",add = "jitter",color = "Haplotype",bxp.errorbar = TRUE)+
+  stat_compare_means(comparisons = my_comparisons, label = "p.signif")+
+  theme(legend.position="none")+
+  theme(axis.title.x = element_blank())
+
+library(ggpubr)
+library(ggplot2)
+wdata = read.delim("clipboard",header=TRUE)
+my_comparisons <- list( c("0", "1"), c("0", "2"), c("0", "3"), c("0", "4"), c("1", "2"), c("1", "3"), c("1", "4"), c("2", "3"), c("2", "4"), c("3", "4"))
+ggboxplot(wdata, x = "Count", y = "HGW",
+          palette = "ggplot2",add = "jitter",color = "Count",bxp.errorbar = TRUE)+
+  stat_compare_means(comparisons = my_comparisons, label = "p.signif")+
+  theme(legend.position="none")+
+  theme(axis.title.x = element_blank())
+
+library(PerformanceAnalytics)
+M<-read.delim("clipboard",header=TRUE)
+chart.Correlation(wdata,histogram = FALSE)
+
+
+
+library(agricolae)
+library(ggplot2)
+library(ggpubr)
+data<-read.delim("clipboard",header=TRUE)
+model<-aov(HGW~Count, data=data)# ?????ط???????
+LSD<-LSD.test(model,"Count", p.adj="bonferroni") #LSD??????
+rowname<-row.names(LSD$groups)
+mark<-LSD$groups
+rownamemar<-row.names(mark)
+newmar<-data.frame(rownamemar,mark$HGW,mark$groups)
+sort<-newmar[order(newmar$rownamemar),]
+rowname<-row.names(LSD$means)
+mean<-LSD$means[,1]
+sd<-LSD$means[,2]
+Max<-LSD$means[,7]
+r<-LSD$means[,3]
+marker<-sort$mark.groups
+Markdata<-data.frame(rowname, mean, sd, Max, r, marker)
+ggboxplot(data, x = "Count", y = "HGW",
+          palette = "ggplot2",add = "jitter",color = "Count",bxp.errorbar = TRUE)+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 1.6*mean, label = marker), inherit.aes = FALSE,colour="red")+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 0.5*mean, label = r), inherit.aes = FALSE)+
+  theme(legend.position="none")+
+  theme(axis.title.x = element_blank())
+
+library(ggpubr)
+indata = read.delim("clipboard",header=TRUE)
+ggdensity(indata, x = "GL",
+          add = "mean", 
+          rug = TRUE,
+          color = "Total", 
+          fill = "Total",
+          palette = "ggplot2")
+
+library(ggplot2)
+wdata = read.delim("clipboard",header=TRUE)
+ggplot(wdata,aes(Group,Ratio,fill=SbDEP1))+
+  geom_bar(stat = 'identity',position ="fill" )+
+  theme_bw()+
+  theme(axis.title.x = element_blank())+
+  theme(legend.position="bottom")
+  
+library(agricolae)
+library(ggplot2)
+library(ggpubr)
+data<-read.delim("clipboard",header=TRUE)
+model<-aov(HGW~Group, data=data)# ?????ط???????
+LSD<-LSD.test(model,"Group", p.adj="bonferroni") #LSD??????
+rowname<-row.names(LSD$groups)
+mark<-LSD$groups
+rownamemar<-row.names(mark)
+newmar<-data.frame(rownamemar,mark$HGW,mark$groups)
+sort<-newmar[order(newmar$rownamemar),]
+rowname<-row.names(LSD$means)
+mean<-LSD$means[,1]
+sd<-LSD$means[,2]
+Max<-LSD$means[,7]
+r<-LSD$means[,3]
+marker<-sort$mark.groups
+Markdata<-data.frame(rowname, mean, sd, Max, r, marker)
+ggboxplot(data, x = "Group", y = "HGW",
+          palette = "ggplot2",add = "jitter",color = "Group",bxp.errorbar = TRUE)+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 1.6*mean, label = marker), inherit.aes = FALSE,colour="red")+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 0.5*mean, label = r), inherit.aes = FALSE)+
+  theme(legend.position="none")+
+  theme(axis.title.x = element_blank())
+
+library(PerformanceAnalytics)
+M<-read.delim("clipboard",header=TRUE)#??Ҫrow.names
+chart.Correlation(M,histogram = FALSE)
+abline()
+
+
+library(ggvenn)
+library(ggpubr)
+input<-read.delim("clipboard",header=FALSE)
+xa<-list(Blink=input$V1,FarmCPU=input$V2,MLM=input$V3,MLMM=input$V4)
+xb<-list(Blink=input$V6,FarmCPU=input$V7,MLM=input$V8,MLMM=input$V9)
+xc<-list(Blink=input$V11,FarmCPU=input$V12,MLM=input$V13,MLMM=input$V14)
+xd<-list(Blink=input$V16,FarmCPU=input$V17,MLM=input$V18,MLMM=input$V19)
+a<-ggvenn(xc, 
+  fill_color = c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF"),
+  stroke_size = 0.5, 
+  set_name_size = 4,
+  show_percentage = FALSE)+
+  labs(title = "GR")+theme(plot.title = element_text(hjust=0.5))
+b<-ggvenn(xa, 
+          fill_color = c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF"),
+          stroke_size = 0.5, 
+          set_name_size = 4,
+          show_percentage = FALSE)+
+  labs(title = "FW")+theme(plot.title = element_text(hjust=0.5))
+c<-ggvenn(xb, 
+          fill_color = c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF"),
+          stroke_size = 0.5, 
+          set_name_size = 4,
+          show_percentage = FALSE)+
+  labs(title = "RL")+theme(plot.title = element_text(hjust=0.5))
+d<-ggvenn(xd, 
+          fill_color = c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF"),
+          stroke_size = 0.5, 
+          set_name_size = 4,
+          show_percentage = FALSE)+
+  labs(title = "SL")+theme(plot.title = element_text(hjust=0.5))
+ggarrange(a, b,c,d, ncol = 2, nrow = 2, labels = c("a", "b","c","d"))
+
+
+library(ggplot2)
+wdata = read.delim("clipboard",header=TRUE)
+wdata2 = read.delim("clipboard",header=TRUE)
+loci =read.delim("clipboard")
+end=read.delim("clipboard")
+ggplot(wdata,aes(x=Chromosome,y=Trait,size=log10P,colour=Model))+
+  geom_point(shape=2)+ 
+  scale_x_continuous(label = wdata2$Chr2,breaks=wdata2$Center)+
+  geom_hline(yintercept = wdata$Trait,linetype ="dotted")+
+  geom_vline(xintercept = end$line,colour ="grey")+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())
+
+
+library(agricolae)
+library(ggplot2)
+library(ggpubr)
+data<-read.delim("clipboard",header=TRUE)
+data1<-na.omit(data[,1:2]) 
+data2<-na.omit(data[,4:5])
+data3<-na.omit(data[,7:8])
+data4<-na.omit(data[,10:11])
+data5<-na.omit(data[,13:14])
+data6<-na.omit(data[,16:17])
+data7<-na.omit(data[,19:20])
+data8<-na.omit(data[,22:23])
+data9<-na.omit(data[,25:26])
+data10<-na.omit(data[,28:29])
+data11<-na.omit(data[,31:32])
+data12<-na.omit(data[,34:35])
+data13<-na.omit(data[,37:38])
+data14<-na.omit(data[,40:41])
+data15<-na.omit(data[,43:44])
+colnames(data2) <- c("SNP","RL")
+colnames(data3) <- c("SNP","RL")
+colnames(data4) <- c("SNP","RL")
+colnames(data5) <- c("SNP","RL")
+colnames(data6) <- c("SNP","RL")
+colnames(data7) <- c("SNP","RL")
+colnames(data8) <- c("SNP","RL")
+colnames(data9) <- c("SNP","RL")
+colnames(data10) <- c("SNP","RL")
+colnames(data11) <- c("SNP","RL")
+colnames(data12) <- c("SNP","RL")
+colnames(data13) <- c("SNP","RL")
+colnames(data14) <- c("SNP","RL")
+colnames(data15) <- c("SNP","RL")
+colnames(data16) <- c("SNP","RL")
+
+
+
+
+
+model<-aov(RL~SNP, data=data1)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+rowname<-row.names(LSD$groups)
+mark<-LSD$groups
+rownamemar<-row.names(mark)
+newmar<-data.frame(rownamemar,mark$RL,mark$groups)
+sort<-newmar[order(newmar$rownamemar),]
+rowname<-row.names(LSD$means)
+mean<-LSD$means[,1]
+sd<-LSD$means[,2]
+Min1<-LSD$means[,6]
+Max1<-LSD$means[,7]
+r<-LSD$means[,3]
+marker<-sort$mark.groups
+Markdata<-data.frame(rowname, mean, sd,Min1, Max1, r, marker)
+a<-ggplot(data = data1, aes(x = SNP, y = RL, color = SNP),)+
+  geom_boxplot()+
+  ggtitle("1:59939653") +
+  xlab("")+
+  ylab("RL (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= Max1+0.5*sd, label = marker), inherit.aes = FALSE)+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 0.6*min(Min1), label = r), inherit.aes = FALSE)
+model<-aov(RL~SNP, data=data2)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+rowname<-row.names(LSD$groups)
+mark<-LSD$groups
+rownamemar<-row.names(mark)
+newmar<-data.frame(rownamemar,mark$RL,mark$groups)
+sort<-newmar[order(newmar$rownamemar),]
+rowname<-row.names(LSD$means)
+mean<-LSD$means[,1]
+sd<-LSD$means[,2]
+Min1<-LSD$means[,6]
+Max1<-LSD$means[,7]
+r<-LSD$means[,3]
+marker<-sort$mark.groups
+Markdata<-data.frame(rowname, mean, sd,Min1, Max1, r, marker)
+b<-ggplot(data = data2, aes(x = SNP, y = RL, color = SNP),)+
+  geom_boxplot()+
+  ggtitle("1:61571312") +
+  xlab("")+
+  ylab("RL (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= Max1+0.5*sd, label = marker), inherit.aes = FALSE)+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 0.6*min(Min1), label = r), inherit.aes = FALSE)
+model<-aov(RL~SNP, data=data3)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+rowname<-row.names(LSD$groups)
+mark<-LSD$groups
+rownamemar<-row.names(mark)
+newmar<-data.frame(rownamemar,mark$RL,mark$groups)
+sort<-newmar[order(newmar$rownamemar),]
+rowname<-row.names(LSD$means)
+mean<-LSD$means[,1]
+sd<-LSD$means[,2]
+Min1<-LSD$means[,6]
+Max1<-LSD$means[,7]
+r<-LSD$means[,3]
+marker<-sort$mark.groups
+Markdata<-data.frame(rowname, mean, sd,Min1, Max1, r, marker)
+c<-ggplot(data = data3, aes(x = SNP, y = RL, color = SNP),)+
+  geom_boxplot()+
+  ggtitle("1:61600006") +
+  xlab("")+
+  ylab("RL (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= Max1+0.5*sd, label = marker), inherit.aes = FALSE)+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 0.6*min(Min1), label = r), inherit.aes = FALSE)
+model<-aov(RL~SNP, data=data4)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+rowname<-row.names(LSD$groups)
+mark<-LSD$groups
+rownamemar<-row.names(mark)
+newmar<-data.frame(rownamemar,mark$RL,mark$groups)
+sort<-newmar[order(newmar$rownamemar),]
+rowname<-row.names(LSD$means)
+mean<-LSD$means[,1]
+sd<-LSD$means[,2]
+Min1<-LSD$means[,6]
+Max1<-LSD$means[,7]
+r<-LSD$means[,3]
+marker<-sort$mark.groups
+Markdata<-data.frame(rowname, mean, sd,Min1, Max1, r, marker)
+d<-ggplot(data = data4, aes(x = SNP, y = RL, color = SNP),)+
+  geom_boxplot()+
+  ggtitle("3:61470122") +
+  xlab("")+
+  ylab("RL (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= Max1+0.5*sd, label = marker), inherit.aes = FALSE)+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 0.6*min(Min1), label = r), inherit.aes = FALSE)
+model<-aov(RL~SNP, data=data5)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+rowname<-row.names(LSD$groups)
+mark<-LSD$groups
+rownamemar<-row.names(mark)
+newmar<-data.frame(rownamemar,mark$RL,mark$groups)
+sort<-newmar[order(newmar$rownamemar),]
+rowname<-row.names(LSD$means)
+mean<-LSD$means[,1]
+sd<-LSD$means[,2]
+Min1<-LSD$means[,6]
+Max1<-LSD$means[,7]
+r<-LSD$means[,3]
+marker<-sort$mark.groups
+Markdata<-data.frame(rowname, mean, sd,Min1, Max1, r, marker)
+e<-ggplot(data = data5, aes(x = SNP, y = RL, color = SNP),)+
+  geom_boxplot()+
+  ggtitle("3:61472480") +
+  xlab("")+
+  ylab("RL (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= Max1+0.5*sd, label = marker), inherit.aes = FALSE)+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 0.6*min(Min1), label = r), inherit.aes = FALSE)
+model<-aov(RL~SNP, data=data6)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+rowname<-row.names(LSD$groups)
+mark<-LSD$groups
+rownamemar<-row.names(mark)
+newmar<-data.frame(rownamemar,mark$RL,mark$groups)
+sort<-newmar[order(newmar$rownamemar),]
+rowname<-row.names(LSD$means)
+mean<-LSD$means[,1]
+sd<-LSD$means[,2]
+Min1<-LSD$means[,6]
+Max1<-LSD$means[,7]
+r<-LSD$means[,3]
+marker<-sort$mark.groups
+Markdata<-data.frame(rowname, mean, sd,Min1, Max1, r, marker)
+f<-ggplot(data = data6, aes(x = SNP, y = RL, color = SNP),)+
+  geom_boxplot()+
+  ggtitle("3:61473819") +
+  xlab("")+
+  ylab("RL (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= Max1+0.5*sd, label = marker), inherit.aes = FALSE)+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 0.6*min(Min1), label = r), inherit.aes = FALSE)
+model<-aov(RL~SNP, data=data7)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+rowname<-row.names(LSD$groups)
+mark<-LSD$groups
+rownamemar<-row.names(mark)
+newmar<-data.frame(rownamemar,mark$RL,mark$groups)
+sort<-newmar[order(newmar$rownamemar),]
+rowname<-row.names(LSD$means)
+mean<-LSD$means[,1]
+sd<-LSD$means[,2]
+Min1<-LSD$means[,6]
+Max1<-LSD$means[,7]
+r<-LSD$means[,3]
+marker<-sort$mark.groups
+Markdata<-data.frame(rowname, mean, sd,Min1, Max1, r, marker)
+g<-ggplot(data = data7, aes(x = SNP, y = RL, color = SNP),)+
+  geom_boxplot()+
+  ggtitle("3:61473935") +
+  xlab("")+
+  ylab("RL (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= Max1+0.5*sd, label = marker), inherit.aes = FALSE)+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 0.6*min(Min1), label = r), inherit.aes = FALSE)
+model<-aov(RL~SNP, data=data8)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+rowname<-row.names(LSD$groups)
+mark<-LSD$groups
+rownamemar<-row.names(mark)
+newmar<-data.frame(rownamemar,mark$RL,mark$groups)
+sort<-newmar[order(newmar$rownamemar),]
+rowname<-row.names(LSD$means)
+mean<-LSD$means[,1]
+sd<-LSD$means[,2]
+Min1<-LSD$means[,6]
+Max1<-LSD$means[,7]
+r<-LSD$means[,3]
+marker<-sort$mark.groups
+Markdata<-data.frame(rowname, mean, sd,Min1, Max1, r, marker)
+h<-ggplot(data = data8, aes(x = SNP, y = RL, color = SNP),)+
+  geom_boxplot()+
+  ggtitle("3:61474123") +
+  xlab("")+
+  ylab("RL (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= Max1+0.5*sd, label = marker), inherit.aes = FALSE)+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 0.6*min(Min1), label = r), inherit.aes = FALSE)
+model<-aov(RL~SNP, data=data9)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+rowname<-row.names(LSD$groups)
+mark<-LSD$groups
+rownamemar<-row.names(mark)
+newmar<-data.frame(rownamemar,mark$RL,mark$groups)
+sort<-newmar[order(newmar$rownamemar),]
+rowname<-row.names(LSD$means)
+mean<-LSD$means[,1]
+sd<-LSD$means[,2]
+Min1<-LSD$means[,6]
+Max1<-LSD$means[,7]
+r<-LSD$means[,3]
+marker<-sort$mark.groups
+Markdata<-data.frame(rowname, mean, sd,Min1, Max1, r, marker)
+i<-ggplot(data = data9, aes(x = SNP, y = RL, color = SNP),)+
+  geom_boxplot()+
+  ggtitle("5:3997490") +
+  xlab("")+
+  ylab("RL (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= Max1+0.5*sd, label = marker), inherit.aes = FALSE)+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 0.6*min(Min1), label = r), inherit.aes = FALSE)
+model<-aov(RL~SNP, data=data10)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+rowname<-row.names(LSD$groups)
+mark<-LSD$groups
+rownamemar<-row.names(mark)
+newmar<-data.frame(rownamemar,mark$RL,mark$groups)
+sort<-newmar[order(newmar$rownamemar),]
+rowname<-row.names(LSD$means)
+mean<-LSD$means[,1]
+sd<-LSD$means[,2]
+Min1<-LSD$means[,6]
+Max1<-LSD$means[,7]
+r<-LSD$means[,3]
+marker<-sort$mark.groups
+Markdata<-data.frame(rowname, mean, sd,Min1, Max1, r, marker)
+j<-ggplot(data = data10, aes(x = SNP, y = RL, color = SNP),)+
+  geom_boxplot()+
+  ggtitle("5:4378165") +
+  xlab("")+
+  ylab("RL (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= Max1+0.5*sd, label = marker), inherit.aes = FALSE)+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 0.6*min(Min1), label = r), inherit.aes = FALSE)
+model<-aov(RL~SNP, data=data11)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+rowname<-row.names(LSD$groups)
+mark<-LSD$groups
+rownamemar<-row.names(mark)
+newmar<-data.frame(rownamemar,mark$RL,mark$groups)
+sort<-newmar[order(newmar$rownamemar),]
+rowname<-row.names(LSD$means)
+mean<-LSD$means[,1]
+sd<-LSD$means[,2]
+Min1<-LSD$means[,6]
+Max1<-LSD$means[,7]
+r<-LSD$means[,3]
+marker<-sort$mark.groups
+Markdata<-data.frame(rowname, mean, sd,Min1, Max1, r, marker)
+k<-ggplot(data = data11, aes(x = SNP, y = RL, color = SNP),)+
+  geom_boxplot()+
+  ggtitle("5:4380264") +
+  xlab("")+
+  ylab("RL (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= Max1+0.5*sd, label = marker), inherit.aes = FALSE)+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 0.6*min(Min1), label = r), inherit.aes = FALSE)
+model<-aov(RL~SNP, data=data12)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+rowname<-row.names(LSD$groups)
+mark<-LSD$groups
+rownamemar<-row.names(mark)
+newmar<-data.frame(rownamemar,mark$RL,mark$groups)
+sort<-newmar[order(newmar$rownamemar),]
+rowname<-row.names(LSD$means)
+mean<-LSD$means[,1]
+sd<-LSD$means[,2]
+Min1<-LSD$means[,6]
+Max1<-LSD$means[,7]
+r<-LSD$means[,3]
+marker<-sort$mark.groups
+Markdata<-data.frame(rowname, mean, sd,Min1, Max1, r, marker)
+l<-ggplot(data = data12, aes(x = SNP, y = RL, color = SNP),)+
+  geom_boxplot()+
+  ggtitle("6:26881592") +
+  xlab("")+
+  ylab("RL (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= Max1+0.5*sd, label = marker), inherit.aes = FALSE)+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 0.6*min(Min1), label = r), inherit.aes = FALSE)
+model<-aov(RL~SNP, data=data13)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+rowname<-row.names(LSD$groups)
+mark<-LSD$groups
+rownamemar<-row.names(mark)
+newmar<-data.frame(rownamemar,mark$RL,mark$groups)
+sort<-newmar[order(newmar$rownamemar),]
+rowname<-row.names(LSD$means)
+mean<-LSD$means[,1]
+sd<-LSD$means[,2]
+Min1<-LSD$means[,6]
+Max1<-LSD$means[,7]
+r<-LSD$means[,3]
+marker<-sort$mark.groups
+Markdata<-data.frame(rowname, mean, sd,Min1, Max1, r, marker)
+m<-ggplot(data = data13, aes(x = SNP, y = RL, color = SNP),)+
+  geom_boxplot()+
+  ggtitle("10:12736253") +
+  xlab("")+
+  ylab("RL (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= Max1+0.5*sd, label = marker), inherit.aes = FALSE)+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 0.6*min(Min1), label = r), inherit.aes = FALSE)
+model<-aov(RL~SNP, data=data14)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+rowname<-row.names(LSD$groups)
+mark<-LSD$groups
+rownamemar<-row.names(mark)
+newmar<-data.frame(rownamemar,mark$RL,mark$groups)
+sort<-newmar[order(newmar$rownamemar),]
+rowname<-row.names(LSD$means)
+mean<-LSD$means[,1]
+sd<-LSD$means[,2]
+Min1<-LSD$means[,6]
+Max1<-LSD$means[,7]
+r<-LSD$means[,3]
+marker<-sort$mark.groups
+Markdata<-data.frame(rowname, mean, sd,Min1, Max1, r, marker)
+n<-ggplot(data = data14, aes(x = SNP, y = RL, color = SNP),)+
+  geom_boxplot()+
+  ggtitle("3:13577207") +
+  xlab("")+
+  ylab("RL (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= Max1+0.5*sd, label = marker), inherit.aes = FALSE)+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 0.6*min(Min1), label = r), inherit.aes = FALSE)
+model<-aov(RL~SNP, data=data15)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+rowname<-row.names(LSD$groups)
+mark<-LSD$groups
+rownamemar<-row.names(mark)
+newmar<-data.frame(rownamemar,mark$RL,mark$groups)
+sort<-newmar[order(newmar$rownamemar),]
+rowname<-row.names(LSD$means)
+mean<-LSD$means[,1]
+sd<-LSD$means[,2]
+Min1<-LSD$means[,6]
+Max1<-LSD$means[,7]
+r<-LSD$means[,3]
+marker<-sort$mark.groups
+Markdata<-data.frame(rowname, mean, sd,Min1, Max1, r, marker)
+o<-ggplot(data = data15, aes(x = SNP, y = RL, color = SNP),)+
+  geom_boxplot()+
+  ggtitle("3:61473339") +
+  xlab("")+
+  ylab("RL (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= Max1+0.5*sd, label = marker), inherit.aes = FALSE)+
+  geom_text(data = Markdata, aes(x= factor(rowname), y= 0.6*min(Min1), label = r), inherit.aes = FALSE)
+
+
+ggarrange(a, b,c,d,e,f,g,h,i,j,k,l,m,n,o, ncol = 5, nrow = 3)
+
+
+
+
+
+library("factoextra")
+input <-read.delim("clipboard",row.names=1)
+df <- scale(input)
+res.km <- eclust(df, "kmeans", nstart = 25)
+fviz_gap_stat(res.km$gap_stat)
+res.km2 <- eclust(df, "kmeans", k =2)
+write.table(res.km2$cluster,"cluster3.txt")
+
+library(pheatmap)
+input <-read.delim("clipboard",header = T,row.names = 1)
+input <-as.matrix(input)
+p <- pheatmap(input,cluster_cols = FALSE)
+
+
+options(scipen=200) #取消科学计数
+library(ggplot2)
+library(dplyr)
+data <- read.delim("clipboard",header = TRUE)
+ggplot(data,aes(x=position,y=p4)) + 
+  geom_point(color="blue")
+
+
+
+
+library(ComplexHeatmap)
+library(circlize)
+input <-read.delim("clipboard",header = T,row.names = 1)
+input <-as.matrix(input)
+col_fun <- colorRamp2(c(0, 1.5), c("white","orange"))
+circos.heatmap(input, col = col_fun, rownames.side = "outside",  dend.side = "inside")
+lgd <- Legend(title = "Ratio", col_fun = col_fun)
+grid.draw(lgd)
+circos.clear()
+
+
+
+
+library(agricolae)
+library(ggplot2)
+library(ggpubr)
+library(dplyr)
+data<-read.delim("clipboard",header=TRUE,row.names = 1)
+model<-aov(RL_Ratio~Type, data)# ?????ط???????
+LSD<-LSD.test(model,"Type", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+a<-ggplot(data, aes(x = Type, y = RL_Ratio, color = Type),)+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("RL_Ratio (%)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 1.3, label = sig), inherit.aes = FALSE)+
+  geom_text(data=n, aes(x= group, y= 0, label = n), inherit.aes = FALSE)
+
+model<-aov(SL_Ratio~Type, data)# ?????ط???????
+LSD<-LSD.test(model,"Type", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+b<-ggplot(data, aes(x = Type, y = SL_Ratio, color = Type))+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("SL_Ratio (%)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 1.5, label = sig), inherit.aes = FALSE)+
+  geom_text(data=n, aes(x= group, y= 0, label = n), inherit.aes = FALSE)
+
+model<-aov(GR_Ratio~Type, data)# ?????ط???????
+LSD<-LSD.test(model,"Type", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+c<-ggplot(data, aes(x = Type, y = GR_Ratio, color = Type))+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("GR_Ratio (%)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 1.4, label = sig), inherit.aes = FALSE)+
+  geom_text(data=n, aes(x= group, y= 0., label = n), inherit.aes = FALSE)
+
+model<-aov(FW_Ratio~Type, data)# ?????ط???????
+LSD<-LSD.test(model,"Type", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+d<-ggplot(data, aes(x = Type, y = FW_Ratio, color = Type),)+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("FW_Ratio (%)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 1.4, label = sig), inherit.aes = FALSE)+
+  geom_text(data=n, aes(x= group, y= 0, label = n), inherit.aes = FALSE)
+
+ggarrange(c,d,a, b,ncol = 4, nrow = 1,labels = c("A","B","C","D"))
+
+
+library(ggpubr)
+library(car)
+input <-read.delim("clipboard")
+qqPlot(input$FW, main="FW qq plot", col="blue", col.lines="grey")
+qqPlot(input$GR, main="GR qq plot", col="blue", col.lines="grey")
+qqPlot(input$RL, main="RL qq plot", col="blue", col.lines="grey")
+qqPlot(input$SL, main="SL qq plot", col="blue", col.lines="grey")
+
+ 
+library(agricolae)
+library(ggplot2)
+library(ggpubr)
+library(dplyr)
+data<-read.delim("clipboard",header=TRUE)
+model<-aov(GR~Type, data)# ?????ط???????
+LSD<-LSD.test(model,"Type", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+a<-ggplot(data, aes(x = factor(Type), y = GR, color = Type),)+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("GR")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 1.1, label = sig), inherit.aes = FALSE)+
+  geom_text(data=n, aes(x= group, y= -0.2, label = n), inherit.aes = FALSE)
+model<-aov(FW~Type, data)# ?????ط???????
+LSD<-LSD.test(model,"Type", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+b<-ggplot(data, aes(x = factor(Type), y = FW, color = Type),)+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("FW")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 1.5, label = sig), inherit.aes = FALSE)+
+  geom_text(data=n, aes(x= group, y= -0.2, label = n), inherit.aes = FALSE)
+model<-aov(RL~Type, data)# ?????ط???????
+LSD<-LSD.test(model,"Type", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+c<-ggplot(data, aes(x = factor(Type), y = RL, color = Type),)+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("RL")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 20, label = sig), inherit.aes = FALSE)+
+  geom_text(data=n, aes(x= group, y= -1, label = n), inherit.aes = FALSE)
+model<-aov(SL~Type, data)# ?????ط???????
+LSD<-LSD.test(model,"Type", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+d<-ggplot(data, aes(x = factor(Type), y = SL, color = Type),)+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("SL")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 13, label = sig), inherit.aes = FALSE)+
+  geom_text(data=n, aes(x= group, y= -1, label = n), inherit.aes = FALSE)
+ggarrange(a, b,c,d,ncol = 4, nrow = 1)
+
+
+
+
+library(agricolae)
+library(ggplot2)
+library(ggpubr)
+library(dplyr)
+data<-read.delim("clipboard",header=TRUE,row.names = 1)
+model<-aov(BJ16_HGW~size, data)# ?????ط???????
+LSD<-LSD.test(model,"size", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+a<-ggplot(data, aes(x = factor(size), y = BJ16_HGW, color = size))+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 6, label = sig), inherit.aes = FALSE)+
+  geom_text(data=n, aes(x= group, y= 1, label = n), inherit.aes = FALSE)
+a
+
+
+
+library(lme4)
+input<-read.delim("clipboard",header=TRUE)
+model<-lmer(GL~(1|Line)+(1|Year),input)
+blup<-ranef(model)
+blup2<-blup$Line
+write.csv(blup2,file="GL.csv")
+
+model<-lmer(fw~(1|Line)+(1|trail),input)
+blup<-ranef(model)
+blup2<-blup$Line
+write.csv(blup2,file="fwblup.csv")
+
+model<-lmer(rl~(1|Line)+(1|trail),input)
+blup<-ranef(model)
+blup2<-blup$Line
+write.csv(blup2,file="rlblup.csv")
+
+model<-lmer(sl~(1|Line)+(1|trail),input)
+blup<-ranef(model)
+blup2<-blup$Line
+write.csv(blup2,file="slblup.csv")
+
+
+library(lme4)
+input<-read.delim("clipboard",header=TRUE)
+model<-lmer(rl~(1|Line)+(1|trail),input)
+summary(model)
+#?Ŵ?????VgΪ0.1970???в??VeΪ0.2866??????????LΪ2
+#h <- 0.197/(0.197+0.2866/2)
+h<- 1.927/(1.927+2.807/2)
+h
+
+
+#help(Anova, package="car")
+library(lme4)
+library(agricolae)
+library(ggplot2)
+library(ggpubr)
+library(dplyr)
+data<-read.delim("clipboard",header=TRUE)
+aov1 <- aov(GR ~ Line+Trail+Treat+Repeat,data)
+summary(aov1)
+LSD<-LSD.test(aov1,"Line")
+plot(LSD)
+
+summary(aov(fw ~ Line+trail,data))
+summary(aov(rl ~ Line+trail,data))
+summary(aov(sl ~ Line+trail,data))
+summary(lm(sl ~ Line+trail,data))
+
+
+
+
+library(agricolae)
+library(ggplot2)
+library(ggpubr)
+library(dplyr)
+data<-read.delim("clipboard",header=TRUE)
+model<-aov(germination~Type, data)# ?????ط???????
+LSD<-LSD.test(model,"Type", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+a<-ggplot(data, aes(x = factor(Type), y = germination, color = Type))+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("Ratio")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 1, label = sig), inherit.aes = FALSE)+
+  geom_text(data=n, aes(x= group, y= 0.1, label = n), inherit.aes = FALSE)
+a
+
+model<-aov(Shoot_length~Type, data)# ?????ط???????
+LSD<-LSD.test(model,"Type", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+a<-ggplot(data, aes(x = factor(Type), y = Shoot_length, color = Type))+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("Shoot_length (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 11, label = sig), inherit.aes = FALSE)+
+  geom_text(data=n, aes(x= group, y= 0.1, label = n), inherit.aes = FALSE)
+a
+
+library(agricolae)
+library(ggplot2)
+library(ggpubr)
+library(dplyr)
+data<-read.delim("clipboard",header=TRUE)
+model<-aov(GR_ratio~SNP1, data)# ?????ط???????
+LSD<-LSD.test(model,"SNP1", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+a<-ggplot(data, aes(x = factor(SNP1), y = GR_ratio, color = SNP1))+
+  geom_boxplot() +
+  xlab("5:7499236")+
+  ylab("GR_Ratio (%)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 1.3, label = sig), inherit.aes = FALSE)+
+  geom_text(data=n, aes(x= group, y= 0, label = n), inherit.aes = FALSE)
+a
+
+data<-read.delim("clipboard",header=TRUE)
+model<-aov(RL_ratio~SNP, data)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+b<-ggplot(data, aes(x = factor(SNP), y = RL_ratio, color = SNP))+
+  geom_boxplot() +
+  xlab("8:45689408")+
+  ylab("RL_Ratio (%)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 1.3, label = sig), inherit.aes = FALSE)+
+  geom_text(data=n, aes(x= group, y= 0, label = n), inherit.aes = FALSE)
+b
+data<-read.delim("clipboard",header=TRUE)
+model<-aov(GR_ratio~SNP, data)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+c<-ggplot(data, aes(x = factor(SNP), y = GR_ratio, color = SNP))+
+  geom_boxplot() +
+  xlab("3:5996238")+
+  ylab("GR_Ratio (%)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 1.3, label = sig), inherit.aes = FALSE)+
+  geom_text(data=n, aes(x= group, y= 0, label = n), inherit.aes = FALSE)
+data<-read.delim("clipboard",header=TRUE)
+model<-aov(GR_ratio~SNP, data)# ?????ط???????
+LSD<-LSD.test(model,"SNP", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+d<-ggplot(data, aes(x = factor(SNP), y = GR_ratio, color = SNP))+
+  geom_boxplot()+
+  xlab("3:13760449")+
+  ylab("GR_Ratio (%)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 1.3, label = sig), inherit.aes = FALSE)+
+  geom_text(data=n, aes(x= group, y= 0, label = n), inherit.aes = FALSE)
+
+ggarrange(d, c,a,b,ncol = 4, nrow = 1,labels = c("A","B","C","D"))
+
+
+
+
+library(psych)
+input<-read.delim("clipboard",header=TRUE)
+describe <- describe(input)
+write.csv(describe,"describe190.csv")
+
+
+
+input<-read.delim("clipboard",header=TRUE)
+nom <- bartlett.test(GR ~ Treat, data = input)#?????ط??????Լ???
+
+
+library(ggplot2)
+library(agricolae)
+library(ggpubr)
+input<-read.delim("clipboard",header=TRUE)        
+model<-aov(GR~Treatment, input)# ?????ط???????
+LSD<-LSD.test(model,"Treatment", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+f<-ggplot(input, aes(x = Treat, y = GR, color = Treat))+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("GR (%)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 1.1, label = sig), inherit.aes = FALSE)+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
+model<-aov(FW~Treatment, input)# ?????ط???????
+LSD<-LSD.test(model,"Treat", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+g<-ggplot(input, aes(x = Treatment, y = FW, color = Treat))+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("FW (g)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 0.25, label = sig), inherit.aes = FALSE)+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
+model<-aov(RL~Treatment, input)# ?????ط???????
+LSD<-LSD.test(model,"Treatment", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+h<-ggplot(input, aes(x = Treatment, y = RL, color = Treat))+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("RL (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 18, label = sig), inherit.aes = FALSE)+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
+model<-aov(SL~Treatment, input)# ?????ط???????
+LSD<-LSD.test(model,"Treatment", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+i<-ggplot(input, aes(x = Treatment, y = SL, fill = Treatment))+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("SL(cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 10, label = sig), inherit.aes = FALSE)
+
+
+ggarrange(f, i,ncol = 2, nrow = 1)
+
+
+
+
+input<-read.delim("clipboard",header=TRUE)
+d<-ggplot(data = input,aes(x=GR_Ratio))+
+  geom_histogram(aes(y = ..density..),color="black",fill="lightblue")+
+  stat_function(fun = dnorm, args = list(mean = mean(input$GR_Ratio), sd = sd(input$GR_Ratio)))+
+  theme_bw()+
+  theme(legend.position = "none")
+c<-ggplot(data = input,aes(x=FW_Ratio))+
+  geom_histogram(aes(y = ..density..),color="black",fill="lightblue")+
+  stat_function(fun = dnorm, args = list(mean = mean(input$FW_Ratio), sd = sd(input$FW_Ratio)))+
+  theme_bw()+
+  theme(legend.position = "none")
+a<-ggplot(data = input,aes(x=RL_Ratio))+
+  geom_histogram(aes(y = ..density..),color="black",fill="lightblue")+
+  stat_function(fun = dnorm, args = list(mean = mean(input$RL_Ratio), sd = sd(input$RL_Ratio)))+
+  theme_bw()+
+  theme(legend.position = "none")
+b<-ggplot(data = input,aes(x=SL_Ratio))+
+  geom_histogram(aes(y = ..density..),color="black",fill="lightblue")+
+  stat_function(fun = dnorm, args = list(mean = mean(input$SL_Ratio), sd = sd(input$SL_Ratio)))+
+  theme_bw()+
+  theme(legend.position = "none")
+ggarrange(d, c,a,b,ncol = 4, nrow = 1,labels = c("A","B","C","D"))
+
+library(ggplot2)
+input2<-read.delim("clipboard",header=TRUE)
+e <- qplot(Flooding_Days, GR, data = input2, color = Line,
+      geom=c("point", "smooth"))+
+  theme(legend.position = "bottom")+
+  ylab("Germination ratio (%)")
+
+input<-read.delim("clipboard",header=TRUE)
+a<- ggplot(data=input, aes(x=Type, y=germination, fill=treat)) +
+  geom_boxplot()+
+  xlab("")+
+  ylab("Germination ratio")+
+  theme(legend.position = "bottom")
+
+b<- ggplot(data=input, aes(x=Type, y=Shoot_length, fill=treat)) +
+  geom_boxplot()+
+  xlab("")+
+  ylab("Shoot length (cm)")+
+  theme(legend.position = "bottom")
+ggarrange(a,b,ncol = 2,nrow = 1)
+
+
+
+
+
+library(agricolae)
+
+input<-read.delim("clipboard",header=TRUE)
+aov1 <- aov(GR ~ Line,input)
+summary(aov1)
+dun <- duncan.test(aov1, "Line", alpha = 0.01,console=TRUE)
+plot(dun)
+
+
+
+
+
+
+library(ggplot2)
+library(agricolae)
+library(ggpubr)
+input<-read.delim("clipboard",header=TRUE)
+f<-ggplot(input, aes(x = Type, y = GR, color = Treat))+
+  geom_boxplot()+
+  xlab("")+
+  ylab("Germination ratio (%)")+
+  annotate(geom="text", x=0.8, y=1, label="a")+
+  annotate(geom="text", x=1.2, y=1, label="b")+
+  annotate(geom="text", x=1.8, y=1, label="ab")+
+  annotate(geom="text", x=2.2, y=1, label="b")
+i<-ggplot(input, aes(x = Type, y = SL, color = Treat))+
+  geom_boxplot()+
+  xlab("")+
+  ylab("Shoot length (cm)")+
+  annotate(geom="text", x=0.8, y=5, label="a")+
+  annotate(geom="text", x=1.2, y=5, label="b")+
+  annotate(geom="text", x=1.8, y=5, label="a")+
+  annotate(geom="text", x=2.2, y=5, label="b")
+
+ggarrange(f, i,ncol = 2, nrow = 1,labels = c("A","B"),legend = "right",common.legend = TRUE)
+
+
+
+library(ggplot2)
+library(agricolae)
+data<-read.delim("clipboard",header=TRUE)
+model<-aov(GR_Ratio~n, data)# ?????ط???????
+LSD<-LSD.test(model,"n", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+ggplot(data, aes(x = n, y = GR_Ratio, color = n))+
+  geom_boxplot(notch = TRUE)+
+  geom_jitter(width = 0.1)+
+  xlab("Haplotype")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 1.3, label = sig), inherit.aes = FALSE)+
+  geom_text(data=n, aes(x= group, y= -0.1, label = n), inherit.aes = FALSE)+
+  theme(legend.position="none")
+
+
+library(ggplot2)
+wdata = read.delim("clipboard",header=TRUE)
+ggplot(wdata, aes(Ability)) + 
+  geom_histogram(bins = 10,color="black", fill="lightblue")+
+  xlab("")+
+  theme_classic()+
+  theme(plot.title = element_text(hjust = 0.5,size = 20),axis.text=element_text(size=16),axis.title.x=element_text(size=20),axis.title.y=element_text(size=20))
+
+library(GGally)
+library(ggplot2)
+wdata = read.delim("clipboard",header=TRUE)
+wdata = as.data.frame(wdata)
+ggpairs(wdata,
+        lower=list(continuous=wrap("smooth",color = "blue")),
+        diag=list(continuous=wrap("barDiag",bins = 15,color = "blue")),
+        upper=list(continuous = "cor"))
+
+library(ggplot2)
+library(ggpubr)
+wdata = read.delim("clipboard",header=TRUE)
+wdata$Size=factor(wdata$Size)
+p1 <- ggplot(wdata, aes(x=Size,y=HGW,fill=Size)) + 
+  geom_violin(trim=FALSE)+
+  xlab("")+
+  geom_boxplot(width=0.1, fill="white")+
+  theme(legend.position="none")
+p2 <- ggplot(wdata, aes(x=Size,y=GW,fill=Size)) + 
+  geom_violin(trim=FALSE)+
+  xlab("")+
+  geom_boxplot(width=0.1, fill="white")+
+  theme(legend.position="none")
+p3 <- ggplot(wdata, aes(x=Size,y=GL,fill=Size)) + 
+  geom_violin(trim=FALSE)+
+  xlab("")+
+  geom_boxplot(width=0.1, fill="white")+
+  theme(legend.position="none")
+ggarrange(p1, p2,p3,ncol = 3, nrow = 1,labels = c("A","B","C"),legend = "right",common.legend = TRUE)
+
+library(ggplot2)
+library(ggpubr)
+wdata = read.delim("clipboard",header=TRUE)
+wdata$Size=factor(wdata$Size)
+p1 <- ggplot(wdata, aes(x=Size,y=HGW,fill=Size))+
+  xlab("")+
+  geom_boxplot()+
+  theme(legend.position="none")+ 
+  annotate(geom="text", x=2, y=2.2, label="a",color="red")+
+  annotate(geom="text", x=1, y=2.2, label="b",color="red")
+p2 <- ggplot(wdata, aes(x=Size,y=GW,fill=Size))+
+  xlab("")+
+  geom_boxplot()+
+  theme(legend.position="none")+ 
+  annotate(geom="text", x=2, y=1.5, label="a",color="red")+
+  annotate(geom="text", x=1, y=1.5, label="b",color="red")
+p3 <- ggplot(wdata, aes(x=Size,y=GL,fill=Size))+
+  xlab("")+
+  geom_boxplot()+
+  theme(legend.position="none")+ 
+  annotate(geom="text", x=2, y=1, label="a",color="red")+
+  annotate(geom="text", x=1, y=1, label="b",color="red")
+ggarrange(p1, p2,p3,ncol = 3, nrow = 1,labels = c("A","B","C"),legend = "right",common.legend = TRUE)
+
+
+
+library(ggplot2)
+library(agricolae)
+wdata = read.delim("clipboard",header=TRUE)
+wdata$Group <- factor(wdata$Group,levels=c("Wild","LG","IS","IG"))
+model<-aov(Ability~Group, wdata)# ?????ط???????
+LSD<-LSD.test(model,"Group", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+sig$group <- factor(sig$group,levels=c("Wild","LG","IS","IG"))
+
+ggplot(wdata, aes(x=Group,y=Ability,fill=Group)) + 
+  geom_violin(trim=FALSE)+
+  xlab("")+
+  geom_boxplot(width=0.1, fill="white")+
+  theme(legend.position="none")+
+  theme_classic()+
+  theme(plot.title = element_text(hjust = 0.5,size = 20),axis.text=element_text(size=16),axis.title.x=element_text(size=20),axis.title.y=element_text(size=20))+
+  geom_text(data=n, aes(x= group, y= -6, label = n), inherit.aes = FALSE)+
+  geom_text(data=sig, aes(x= group, y= 15, label = sig), inherit.aes = FALSE)
+
+ggplot(wdata, aes(x=Group,y=Ability,fill=Group))+
+  xlab("")+
+  stat_boxplot(geom = "errorbar",width=0.3)+
+  geom_boxplot()+
+  theme(legend.position="none")+
+  theme_classic()+
+  theme(plot.title = element_text(hjust = 0.5,size = 20),axis.text=element_text(size=16),axis.title.x=element_text(size=20),axis.title.y=element_text(size=20))+
+  geom_text(data=n, aes(x= group, y= -1, label = n), inherit.aes = FALSE)
+
+#Shapiro-Wilk normality test
+shapiro.test(x)
+shapiro.test(rnorm(100, mean = 5, sd = 3))
+df <- read.delim("clipboard",header = TRUE)
+shapiro.test(df$GR_Ratio)
+shapiro.test(df$FW_Ratio)
+shapiro.test(df$RL_Ratio)
+shapiro.test(df$SL_Ratio)
+
+ggplot(df, aes(x=GR_Ratio,fill = "blue")) +
+  geom_density(alpha=0.4)+ 
+  scale_color_grey() + 
+  theme_classic()
+
+require(graphics)
+y <- rt(200, df = 5)
+qqnorm(y); qqline(y, col = 2)
+qqplot(y, rt(300, df = 5))
+
+#install.packages("ggpubr")
+library(ggpubr)
+df = read.delim("clipboard",header=TRUE)
+p <- ggplot(df, aes(x=Flooding_Days, y=GR, color=Line, shape=Line)) +
+  geom_line(size = 1, linejoin = "mitre", lineend = "butt")+
+  geom_point()+
+  ylab("Germination rate (%)")+ 
+  scale_x_continuous(breaks=seq(0,7,1))+
+  theme_bw()+
+  theme(legend.position="bottom")
+p
+ggscatter(df, x = "Flooding_Days", y = "GR",
+          add = "reg.line",                         # Add regression line
+          color = "Line", palette = "jco",           # Color by groups "cyl"
+          shape = "Line",                            # Change point shape by groups "cyl"
+          fullrange = TRUE,                         # Extending the regression line
+          rug = TRUE                                # Add marginal rug
+)+
+  stat_cor(aes(color = Line), label.x = 3)           # Add correlation coefficient
+
+
+
+library(ggpubr)
+df = read.delim("clipboard",header=TRUE)
+p1<- ggplot(df, aes(x=GR_Control)) +
+  geom_density()+
+  geom_vline(aes(xintercept=mean(GR_Control)),
+                           color="blue", linetype="dashed", size=1)+
+  labs(title="GR_Control",x="GR (%)", y = "Density")+ 
+  theme_classic()
+p2<- ggplot(df, aes(x=FW_Control)) +
+  geom_density()+
+  geom_vline(aes(xintercept=mean(FW_Control)),
+             color="blue", linetype="dashed", size=1)+
+  labs(title="FW_Control",x="FW (g)", y = "Density")+ 
+  theme_classic()
+p3<- ggplot(df, aes(x=RL_Control)) +
+  geom_density()+
+  geom_vline(aes(xintercept=mean(RL_Control)),
+             color="blue", linetype="dashed", size=1)+
+  labs(title="RL_Control",x="RL (cm)", y = "Density")+ 
+  theme_classic()
+p4<- ggplot(df, aes(x=SL_Control)) +
+  geom_density()+
+  geom_vline(aes(xintercept=mean(SL_Control)),
+             color="blue", linetype="dashed", size=1)+
+  labs(title="SL_Control",x="SL (cm)", y = "Density")+ 
+  theme_classic()
+p5<- ggplot(df, aes(x=GR_Flooding)) +
+  geom_density()+
+  geom_vline(aes(xintercept=mean(GR_Flooding)),
+             color="blue", linetype="dashed", size=1)+
+  labs(title="GR_Flooding",x="GR (%)", y = "Density")+ 
+  theme_classic()
+p6<- ggplot(df, aes(x=FW_Flooding)) +
+  geom_density()+
+  geom_vline(aes(xintercept=mean(FW_Flooding)),
+             color="blue", linetype="dashed", size=1)+
+  labs(title="FW_Flooding",x="FW (g)", y = "Density")+ 
+  theme_classic()
+p7<- ggplot(df, aes(x=RL_Flooding)) +
+  geom_density()+
+  geom_vline(aes(xintercept=mean(RL_Flooding)),
+             color="blue", linetype="dashed", size=1)+
+  labs(title="RL_Flooding",x="RL (cm)", y = "Density")+ 
+  theme_classic()
+p8<- ggplot(df, aes(x=SL_Flooding)) +
+  geom_density()+
+  geom_vline(aes(xintercept=mean(SL_Flooding)),
+             color="blue", linetype="dashed", size=1)+
+  labs(title="SL_Flooding",x="SL (cm)", y = "Density")+ 
+  theme_classic()
+p9<- ggplot(df, aes(x=GR_Ratio)) +
+  geom_density()+
+  geom_vline(aes(xintercept=mean(GR_Ratio)),
+             color="blue", linetype="dashed", size=1)+
+  labs(title="GR_Ratio",x="GR (%)", y = "Density")+ 
+  theme_classic()
+p10<- ggplot(df, aes(x=FW_Ratio)) +
+  geom_density()+
+  geom_vline(aes(xintercept=mean(FW_Ratio)),
+             color="blue", linetype="dashed", size=1)+
+  labs(title="FW_Ratio",x="FW (%)", y = "Density")+ 
+  theme_classic()
+p11<- ggplot(df, aes(x=RL_Ratio)) +
+  geom_density()+
+  geom_vline(aes(xintercept=mean(RL_Ratio)),
+             color="blue", linetype="dashed", size=1)+
+  labs(title="RL_Ratio",x="RL (%)", y = "Density")+ 
+  theme_classic()
+p12<- ggplot(df, aes(x=SL_Ratio)) +
+  geom_density()+
+  geom_vline(aes(xintercept=mean(SL_Ratio)),
+             color="blue", linetype="dashed", size=1)+
+  labs(title="SL_Ratio",x="SL (%)", y = "Density")+ 
+  theme_classic()
+A <- ggarrange(p1, p2,p3,p4,p5, p6,p7,p8,p9, p10,p11,p12, ncol = 4, nrow = 3)
+
+
+library(GGally)
+library(ggplot2)
+wdata = read.delim("clipboard",header=TRUE)
+wdata = as.data.frame(wdata)
+ggpairs(wdata,
+        lower=list(continuous=wrap("smooth")),
+        diag=list(continuous=wrap("densityDiag")),
+        upper=list(continuous = "cor"))+
+  theme(axis.line=element_blank(),axis.text=element_blank(),axis.ticks=element_blank())
+
+
+library(ggplot2)
+library(agricolae)
+library(ggpubr)
+input<-read.delim("clipboard",header=TRUE)        
+model<-aov(GR~Treat, input)# ?????ط???????
+LSD<-LSD.test(model,"Treat", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+f<-ggplot(input, aes(x = Treat, y = GR, color = Treat))+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("GR (%)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 1, label = sig), inherit.aes = FALSE)
+model<-aov(FW~Treat, input)# ?????ط???????
+LSD<-LSD.test(model,"Treat", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+g<-ggplot(input, aes(x = Treat, y = FW, fill = Treat))+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("FW (g)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 0.3, label = sig), inherit.aes = FALSE)
+model<-aov(RL~Treat, input)# ?????ط???????
+LSD<-LSD.test(model,"Treat", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+h<-ggplot(input, aes(x = Treat, y = RL, fill = Treat))+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("RL (cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 20, label = sig), inherit.aes = FALSE)
+model<-aov(SL~Treat, input)# ?????ط???????
+LSD<-LSD.test(model,"Treat", p.adj="bonferroni") #LSD??????
+sig<-data.frame(row.names(LSD$groups),LSD$groups$groups)
+colnames(sig) <- c("group","sig")
+n<-data.frame(row.names(LSD$means),LSD$means$r)
+colnames(n) <- c("group","n")
+i<-ggplot(input, aes(x = Treat, y = SL, color = Treat))+
+  geom_boxplot()+
+  ggtitle("") +
+  xlab("")+
+  ylab("SL(cm)")+ 
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(axis.text = element_text(size = 12))+
+  geom_text(data=sig, aes(x= group, y= 5, label = sig), inherit.aes = FALSE)
+
+C <- ggarrange(f, i,ncol = 2, nrow = 1)
+
+D <- ggarrange(A,B, i,ncol = 1, nrow = 3,labels = c("A", "B","C"))
+
+ggsave("test.pdf",D)
+
+
+
+
+
+library(ggplot2)
+df = read.delim("clipboard",header=TRUE)
+p <- ggplot(data=df, aes(x=Flooding_Days, y=GR,fill=Line)) +
+  geom_bar(stat="identity",position = "dodge")+
+  xlab("Flooding duration time (days)")+
+  ylab("Germination rate (%)")+
+  theme_minimal()
+p
+
+
+df = read.delim("clipboard",header=TRUE)
+fit <- aov(GR ~ Line,df)
+summary(fit)
+TukeyHSD(fit)
+plot(TukeyHSD(fit))
+
+
+
+library(ggcorrplot)
+library(corrplot)
+env.cor <- round(cor(wdata, method = "pearson"),3)
+env.p <-round(cor_pmat(wdata,method = "pearson"),3)
+cor.plot<-corrplot(corr = env.cor,type="lower",add=TRUE,method="number",
+                   tl.pos="n",tl.col="black",
+                   col="black",tl.cex=1.2,diag=FALSE, cl.pos="n",pch.col = "black",
+                   number.cex = 0.8,order = "AOE")
+
+
+install.packages("Rtools")
+devtools::install_github("braverock/PerformanceAnalytics")
+setwd("F:\\corr")
+R<-read.csv("cor.csv",header=TRUE)
+library('PerformanceAnalytics')
+d1<- R[ , 2:14]
+chart.Correlation(d1,histogram=F,pch=44)
+
+
+library("ggpubr")
+df = read.delim("clipboard",header=TRUE)
+my_comparisons <- list( c("D-0", "D-1"), c("D-0", "D-2"),c("D-0", "D-3"), c("D-0", "D-4"),c("D-0", "D-5"), c("D-0", "D-6"), c("D-0", "D-7"))
+ggplot(df, aes(x = Flooding_Days, y = GR, color = Type))+
+  geom_boxplot(color = "black", outlier.shape = NA,)+
+  geom_jitter(width = 0.1)+
+  scale_color_manual(values = c("red","green3","blue","magenta")) + 
+  theme_classic()+
+  stat_compare_means(comparisons = my_comparisons, label = "p.format")+ # Add significance levels
+  xlab("Flooding duration time (days)")+
+  ylab("Germination rate (%)")+
+  theme(legend.background = element_rect(size=0.5, linetype="solid",colour ="black"),legend.position = c(0.1,0.25))
+
+library(ggplot2)
+library(agricolae)
+library(ggpubr)
+input<-read.delim("clipboard",header=TRUE)
+input$Concentration <- factor(input$Concentration)
+input$DOC <- factor(input$DOC)
+ggplot(input, aes(x = Concentration, y = RFU, color = DOC))+
+  geom_boxplot() +
+  labs(x ="Microcystis concentration (cells/mL)", y ="Phycocyanin (RFU)", color = "DOC (mg/L)")+
+  theme_bw()+
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),legend.position = c(0.1,0.8))+
+  geom_text(data=sig, aes(x= 0.7, y= 2, label = "b"), inherit.aes = FALSE)+
+  geom_text(data=sig, aes(x= 0.9, y= 2, label = "b"), inherit.aes = FALSE)+
+  geom_text(data=sig, aes(x= 1.1, y= 2, label = "b"), inherit.aes = FALSE)+
+  geom_text(data=sig, aes(x= 1.3, y= 2, label = "a"), inherit.aes = FALSE)+
+  geom_text(data=sig, aes(x= 1.7, y= 2, label = "a"), inherit.aes = FALSE)+
+  geom_text(data=sig, aes(x= 1.9, y= 2, label = "b"), inherit.aes = FALSE)+
+  geom_text(data=sig, aes(x= 2.1, y= 2, label = "c"), inherit.aes = FALSE)+
+  geom_text(data=sig, aes(x= 2.3, y= 2, label = "d"), inherit.aes = FALSE)+
+  geom_text(data=sig, aes(x= 2.7, y= 5, label = "a"), inherit.aes = FALSE)+
+  geom_text(data=sig, aes(x= 2.9, y= 5, label = "b"), inherit.aes = FALSE)+
+  geom_text(data=sig, aes(x= 3.1, y= 5, label = "c"), inherit.aes = FALSE)+
+  geom_text(data=sig, aes(x= 3.3, y= 5, label = "d"), inherit.aes = FALSE)+
+  geom_text(data=sig, aes(x= 3.7, y= 20, label = "a"), inherit.aes = FALSE)+
+  geom_text(data=sig, aes(x= 3.9, y= 20, label = "b"), inherit.aes = FALSE)+
+  geom_text(data=sig, aes(x= 4.1, y= 20, label = "c"), inherit.aes = FALSE)+
+  geom_text(data=sig, aes(x= 4.3, y= 20, label = "d"), inherit.aes = FALSE)
+
