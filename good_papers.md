@@ -19,3 +19,5 @@
 [The Genetics and Biochemistry of Floral Pigments](./document/annurev.arplant.57.032905.105248.pdf)
 
 [MYB Transcription Factors as Regulators of Secondary Metabolism in Plants](./document/biology-09-00061-v2.pdf)
+
+[**Making small molecules in plants: A chassis for synthetic biology-based production of plant natural products**](./document/JIPB-2022-Liu.pdf)
