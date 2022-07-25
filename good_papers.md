@@ -21,3 +21,5 @@
 [MYB Transcription Factors as Regulators of Secondary Metabolism in Plants](./document/biology-09-00061-v2.pdf)
 
 [**Making small molecules in plants: A chassis for synthetic biology-based production of plant natural products**](./document/JIPB-2022-Liu.pdf)
+
+[**Current understanding of the pathways of flavonoid biosynthesis in model and crop plants**](./document/erx177.pdf)
