@@ -7,3 +7,5 @@
 [Good papers](./good_papers.md)
 
 [R codes](./script/codes.R.txt)
+
+[R 学习资料 学习总结](./R资料.md)
