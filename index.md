@@ -10,4 +10,6 @@
 
 [R 学习资料 学习总结](./R资料.md)
 
+[Sorghum Methods and Protocols](./good_papers.md)
+
 **\*Excel表格转换Markdown表格在线工具** <https://tableconvert.com/>
